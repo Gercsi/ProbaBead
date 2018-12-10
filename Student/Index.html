@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="application/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="application/javascript" src="js/index.js"></script>
+</head>
+<body>
+
+<div id="all">
+    <div id="title">Cars</div>
+    <div id="Bar">
+        <button class="Button" onclick="home()">Home</button>
+        <button class="Button" onclick="manufacturers()">Manufacturers</button>
+        <button class="Button" onclick="cars()">Cars</button>
+        <button class="Button" onclick="manufacturer()">Cars List By Manufacturers</button>
+        <button class="Button" onclick="addCar()">Add Car</button>
+        <button class="Button" onclick="addManufacturer()">Add Manufacturer</button>
+    </div>
+
+    <div id="cars"></div>
+
+    <div id="manufacturers"></div>
+
+    <div id="manufacturer"></div>
+
+    <form action="addCar" method="post" id="addCarForm"  hidden>
+        <table>
+            <tr>
+                <th colspan='3' align="center">Add Car </th>
+            </tr>
+            <tr>
+                <th>Name: </th><th><input type="text" name="name" required > </th>
+            </tr>
+            <tr>
+                <th>Consumption: </th><th><input type="text" name="consumption" reuired>  L/100Km</th>
+            </tr>
+            <tr>
+                <th>Color: </th><th><input type="text" name="color" required> </th>
+            </tr>
+            <tr>
+                <th>Manufacturer: </th><th id="manufacturerSelector"></th>
+            </tr>
+            <tr>
+                <th>Available:</th><th><input type="number" name="available" required> </th>
+            </tr>
+            <tr>
+                <th>Year:</th><th><input type="number" name="year" required> </th>
+            </tr>
+            <tr>
+                <th>Horsepower: </th><th><input type="number" name="horsepower" required> </th>
+            </tr>
+            <tr>
+                <th><button type="submit" class="submit">Submit</button></th>
+            </tr>
+        </table>
+    </form>
+
+    <div id="addManufacturers"></div>
+    <form action="addManufacturers" method="post" id="addManufacturerForm" hidden>
+        <table>
+            <tr style="font-size: 40px" >
+                <th colspan='5'>Adding Manufacturer</th>
+            </tr>
+            <tr>
+                <th>Name: </th><th><input type="text" name="name" placeholder="Example"> </th>
+            </tr>
+            <tr>
+                <th>Country: </th><th><input type="text" name="country" placeholder="Example"></th>
+            </tr>
+            <tr>
+                <th>Founded: </th><th><input type="date" name="founded" pattern=""> </th>
+            </tr>
+            <tr>
+                <th colspan="2"><button type="submit" class="submit">Submit</button></th>
+            </tr>
+        </table>
+    </form>
+
+</div>
+
+</body>
+</html>

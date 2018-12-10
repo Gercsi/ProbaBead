@@ -1,0 +1,66 @@
+body{
+    background-color: #fefdb8;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+input, select{
+    background-color: #ffffff;
+    border-color: #000000;
+}
+#all{
+    width: 100%;
+}
+#title{
+    text-align: center;
+    font-size: 50px;
+    color: black;
+}
+#Bar{
+    font-size: 15px;
+    margin-bottom: 20px;
+    height: 40px;
+}
+#Bar .Button:HOVER{
+    background-color: black;
+
+}
+#Bar .Button{
+    background-color: #333333;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 17px;
+    width: 16.6666667%;
+    text-align: center;
+    color: #ffffff;
+
+}
+
+.submit{
+    color: #ffffff;
+    background-color: #222222;
+    border: none;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: underline;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+table{
+    width: 35%;
+    background-color: #333;
+    color: #ffffff;
+    text-align: right;
+    border-collapse: collapse;
+    border-radius:15px;
+    overflow: hidden;
+}
+
+.column_names{
+    font-size: 20px;
+}
