@@ -1,46 +1,44 @@
 function home(){
     $("#cars").hide();
     $("#manufacturers").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
-    $("#index").show();
-
-
+    $('#index').show();
 }
 
 function cars() {
     $("#cars").hide();
     $("#manufacturers").hide();
     $("#index").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
     $.getJSON('cars', function (data) {
         var table = $('<table id="cars"></table>');
-        var title = $("<tr style=font-size: 40px><th colspan='10'>Cars</th></tr>");
+        var title = $("<tr><th colspan='10'>Cars</th></tr>");
+        var head = $("<tr><th>Name</th><th>Consumption</th><th>Color</th><th>Manufacturer</th><th>Available</th><th>Year</th><th>Horsepower</th></tr>");
+        var thead = $("<thead></thead>");
+        var tbody = $("<tbody></tbody>");
         thead.append(title);
-        var head = $("<tr style=font-size: 20px><th>Name</th><th>Consumption</th><th>Color</th><th>Manufacturer</th><th>Available</th><th>Year</th><th>Horsepower</th></tr>");
         thead.append(head);
-
-
         $.each(data, function (key, value) {
-            var row = $('<tr></tr>');
-            var nameCell = $('<td>' + value.name + '</td>');
-            var consumptionCell = $('<td>' + value.consumption + '</td>');
-            var colorCell = $('<td>' + value.color + '</td>');
-            var manufacturerCell = $('<td>' + value.manufacturer + '</td>');
-            var availableCell = $('<td>' + value.available + '</td>');
-            var yearCell = $('<td>' + value.year + '</td>');
-            var horsepowerCell = $('<td>' + value.horsepower + '</td>');
-            row.append(nameCell);
-            row.append(consumptionCell);
-            row.append(colorCell);
-            row.append(manufacturerCell);
-            row.append(availableCell);
-            row.append(yearCell);
-            row.append(horsepowerCell);
-            tbody.append(row);
+            var line = $('<tr></tr>');
+            var nameData = $('<td>' + value.name + '</td>');
+            var consumptionData = $('<td>' + value.consumption + '</td>');
+            var colorData = $('<td>' + value.color + '</td>');
+            var manufacturerData = $('<td>' + value.manufacturer + '</td>');
+            var availableData = $('<td>' + value.available + '</td>');
+            var yearData = $('<td>' + value.year + '</td>');
+            var horsepowerData = $('<td>' + value.horsepower + '</td>');
+            line.append(nameData);
+            line.append(consumptionData);
+            line.append(colorData);
+            line.append(manufacturerData);
+            line.append(availableData);
+            line.append(yearData);
+            line.append(horsepowerData);
+            tbody.append(line);
         });
         table.append(thead);
         table.append(tbody);
@@ -52,28 +50,26 @@ function manufacturers() {
     $("#cars").hide();
     $("#manufacturers").hide();
     $("#index").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
     $.getJSON('manufacturers', function (data) {
-        var table = $('<table id="manufacturersTable" class="animate-left"></table>');
+        var table = $('<table id="manufacturersData"></table>');
         var thead = $("<thead></thead>");
         var tbody = $("<tbody></tbody>");
-        var title = $("<tr class='table_title'><th colspan='3'>Manufacturers</th></tr>");
-        var head = $("<tr class='column_names'><th>Name</th><th>Country</th><th>Founded</th></tr>");
+        var title = $("<tr><th colspan='10'>Manufacturers</th></tr>");
+        var head = $("<th>Name</th><th>Country</th><th>Founded</th>");
         thead.append(title);
         thead.append(head);
-
-
         $.each(data, function (key, value) {
-            var row = $('<tr></tr>');
-            var nameCell = $('<td>' + value.name + '</td>');
-            var countryCell = $('<td>' + value.country + '</td>');
-            var foundedCell = $('<td>' + value.founded + '</td>');
-            row.append(nameCell);
-            row.append(countryCell);
-            row.append(foundedCell);
-            tbody.append(row);
+            var line = $('<tr></tr>');
+            var nameData = $('<td>' + value.name + '</td>');
+            var countryData = $('<td>' + value.country + '</td>');
+            var foundedData = $('<td>' + value.founded + '</td>');
+            line.append(nameData);
+            line.append(countryData);
+            line.append(foundedData);
+            tbody.append(line);
         });
         table.append(thead);
         table.append(tbody);
@@ -87,23 +83,19 @@ function addCar() {
     $("#index").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
+    $("#addCarsForm").on("submit", function (event) { event.preventDefault();
 
-    $('#addCarForm').show();
-    $.getJSON('/manufacturerNames', function (data) {
-
-        var selector = $('<select name="manufacturer" required></select>')
-        var placeholder = $('<option value="Please select one!">Please select one!</option>');
-        selector.append(placeholder);
-
-        $.each(data, function (key, value) {
-            var option = $('<option value=' + '"' + value + '">' + value + '</option>');
-            selector.append(option);
+        $.post("/addCar", {"name": $("#carName").val(), "consumption": $("#carConsumption").val(), "color": $("#carColor").val(), "manufacturer": $("#carManufacturer").val(), "year": $("#carYear").val(), "available": $("#carAvailable").val(), "horsepower": $("#carHorsepower").val()
+        }, function () {alert("Sikeres a hozzáadás!");
+        }).fail(function () {alert("Sikertelen!");
         });
-        $('#manufacturerSelector').html(selector);
-        $('#addCar').show();
-        document.getElementById("addCarForm").reset();
+    });
 
-    })
+    $.get("/manufacturerNames", function (names) { names.forEach(function (name) {
+            $("#carManufacturer").append('<option value="' +  name + '">' + name + '</option>');
+        });
+    });
+    $('#addCarsForm').show();
 
 }
 
@@ -111,34 +103,44 @@ function addManufacturer() {
     $("#cars").hide();
     $("#manufacturers").hide();
     $("#index").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#manufacturer").hide();
-    document.getElementById("addManufacturerForm").reset();
-    $('#addManufacturerForm').show();
+    $('#addManufacturerForm').on('submit', function (event) {
+        event.preventDefault();
+
+        var name = $("#manufacturerName").val();
+        var country = $("#manufacturerCountry").val();
+        var founded = $("#manufacturerFounded").val();
+
+        $.post("/addManufacturers", {name: name, country: country, founded: founded}
+        , function(){alert("Hozzáadás sikeres!");
+        }).fail(function() {alert("Hiba!");});
+    });
+    $("#addManufacturerForm").show();
 }
 
 function manufacturer(){
     $("#cars").hide();
     $("#manufacturers").hide();
     $("#index").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
     $.getJSON('manufacturers', function (data) {
-        var table = $('<table id="manufacturerTable" class="animate-left"></table>');
+        var table = $('<table id="manufacturerTable"></table>');
         var thead = $("<thead></thead>");
         var tbody = $("<tbody></tbody>");
-        var title = $("<tr class='table_title'><th>List Cars By Manufacturers</th></tr>");
+        var title = $("<tr><th>Gyártók alapján lista</th></tr>");
         var selectorRow = $("<tr></tr>");
         var submitRow = $("<tr></tr>");
-        var selector = $('<select id="selector">List Cars</select>');
+        var selector = $('<select id="selector">Autók listája</select>');
         thead.append(title);
         selectorRow.append(selector);
         tbody.append(selectorRow);
 
         $.each(data, function (key, value) {
-            var manufactura = $('<option>'+ value.name +'</option>');
-            selector.append(manufactura);
+            var manufacture = $('<option>'+ value.name +'</option>');
+            selector.append(manufacture);
         });
         var submit = $('<input type="button" onclick="loadCarsByManufacturer()" value="Submit"></button>');
         submitRow.append(submit);
@@ -157,20 +159,20 @@ function loadCarsByManufacturer() {
     $("#cars").hide();
     $("#manufacturers").hide();
     $("#index").hide();
-    $("#addCarForm").hide();
+    $("#addCarsForm").hide();
     $("#addManufacturerForm").hide();
     $("#manufacturer").hide();
     $.getJSON('/manufacturer', function (data) {
-        var table = $('<table id="carsByManufacturerTable" class="animate-left"></table>');
+        var table = $('<table id="byManufacturerTable"></table>');
         var thead = $("<thead></thead>");
         var tbody = $("<tbody></tbody>");
-        var title = $("<tr class='table_title'><th colspan='7'>Cars By Manufacturer</th></tr>");
-        var head = $("<tr class='column_names'><th>Name</th><th>Consumption</th><th>Color</th><th>Manufacturer</th><th>Available</th><th>Year</th><th>Horsepower</th></tr>");
+        var title = $("<tr><th colspan='7'>Cars By Manufacturer</th></tr>");
+        var head = $("<tr><th>Name</th><th>Consumption</th><th>Color</th><th>Manufacturer</th><th>Available</th><th>Year</th><th>Horsepower</th></tr>");
         thead.append(title);
         thead.append(head);
 
         $.each(data, function (key, value) {
-            var row = $('<tr></tr>');
+            var line = $('<tr></tr>');
             var nameCell = $('<td>' + value.name + '</td>');
             var consumptionCell = $('<td>' + value.consumption + '</td>');
             var colorCell =  $('<td>' + value.color + '</td>');
@@ -179,14 +181,14 @@ function loadCarsByManufacturer() {
             var yearCell =  $('<td>' + value.year + '</td>');
             var horsePowerCell =  $('<td>' + value.horsepower + '</td>');
 
-            row.append(nameCell);
-            row.append(consumptionCell);
-            row.append(colorCell);
-            row.append(manufacturerCell);
-            row.append(availableCell);
-            row.append(yearCell);
-            row.append(horsePowerCell);
-            tbody.append(row)
+            line.append(nameCell);
+            line.append(consumptionCell);
+            line.append(colorCell);
+            line.append(manufacturerCell);
+            line.append(availableCell);
+            line.append(yearCell);
+            line.append(horsePowerCell);
+            tbody.append(line)
         });
         table.append(thead);
         table.append(tbody);
@@ -195,40 +197,3 @@ function loadCarsByManufacturer() {
     })
 }
 
-$(function (){
-    const form = $('#addCarForm');
-    $(form).submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            type:'post',
-            url: 'addCar',
-            data: $(form).serialize(),
-            success: function () {
-                cars();
-            },
-            error: function () {
-                alert("Hiba!");
-            }
-        })
-    })
-});
-
-$(function (){
-    const form = $('#addManufacturerForm');
-    $(form).submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            type:'post',
-            url: 'addManufacturers',
-            data: $(form).serialize(),
-            success: function () {
-                manufacturers();
-            },
-            error: function () {
-                alert("Hiba!");
-            }
-        })
-    })
-});
